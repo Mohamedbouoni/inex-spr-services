@@ -9,12 +9,34 @@ import ProcessTimeline from './ProcessTimeline';
 import './ProcessTimeline.css';
 import ServiceModal from './ServiceModal';
 import './ServiceModal.css';
-import { Star, ShieldCheck, Leaf, Award, Quote } from 'lucide-react';
+import { Star, ShieldCheck, Leaf, Award, Quote, Menu, X } from 'lucide-react';
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Scroll Reveal Logic
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [isModalOpen]);
 
   const servicesData = [
     {
@@ -72,10 +94,30 @@ function App() {
   return (
     <div className="app">
       {/* Navigation */}
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}>
+        <div className="mobile-menu-content">
+          <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services'); setIsMenuOpen(false); }}>Services</a>
+          <a href="#comparison" onClick={(e) => { e.preventDefault(); scrollTo('comparison'); setIsMenuOpen(false); }}>Réalisations</a>
+          <a href="#method" onClick={(e) => { e.preventDefault(); scrollTo('method'); setIsMenuOpen(false); }}>Méthode</a>
+          <a href="#estimator" onClick={(e) => { e.preventDefault(); scrollTo('estimator'); setIsMenuOpen(false); }}>Estimation</a>
+          <a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); setIsMenuOpen(false); }}>À Propos</a>
+          <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); setIsMenuOpen(false); }}>Contact</a>
+
+          <div className="mobile-socials">
+            <span className="sc-text">Suivez-nous</span>
+            <div className="sc-icons">
+              <a href="#">Fb</a>
+              <a href="#">In</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="container">
           <a href="#" className="logo">
-            <img src="/logo.png" alt="INEX SPR Logo" className="logo-img" />
+            <img src="/logo_transparent.png" alt="INEX SPR Logo" className="logo-img" />
           </a>
           <div className="nav-links">
             <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services'); }}>Services</a>
@@ -85,11 +127,21 @@ function App() {
             <a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }}>À Propos</a>
             <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }}>Contact</a>
           </div>
+          
+          <button className="mobile-menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </nav>
 
+      {/* Floating Mobile Action Button */}
+      <a href="tel:+33000000000" className="mobile-fab">
+        <Star size={20} fill="currentColor" />
+        <span>Devis Gratuit</span>
+      </a>
+
       {/* Hero Section */}
-      <header className="hero">
+      <header className="hero reveal">
         <div className="hero-bg"></div>
         <div className="hero-overlay"></div>
         <div className="container relative">
@@ -99,7 +151,7 @@ function App() {
               Transformez vos espaces avec <span>Précision</span> & <span>Élégance</span>.
             </h1>
             <p className="hero-desc">
-              Experts en peinture et revêtements à Saint-Aubin-lès-Elbeuf. 
+              Experts en peinture et revêtements à Saint-Aubin-lès-Elbeuf.
               Nous donnons vie à vos projets immobiliers et intérieurs professionnels.
             </p>
             <div className="hero-actions">
@@ -116,13 +168,17 @@ function App() {
       </header>
 
       {/* Comparison Slider Section */}
-      <ComparisonSlider />
+      <section id="comparison" className="reveal">
+        <ComparisonSlider />
+      </section>
 
       {/* Interactive Quote Estimator Section */}
-      <QuoteEstimator />
+      <section id="estimator" className="reveal">
+        <QuoteEstimator />
+      </section>
 
       {/* About Section */}
-      <section id="about" className="section about">
+      <section id="about" className="section about reveal">
         <div className="container">
           <div className="about-grid">
             <div className="about-text">
@@ -131,14 +187,14 @@ function App() {
                 INEX SPR est votre partenaire de confiance pour la rénovation et l'embellissement de vos espaces de vie ou de travail.
               </p>
               <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '2rem' }}>
-                Grâce à notre savoir-faire acquis sur de nombreux chantiers en Normandie, nous maîtrisons toutes les techniques de peinture, de pose de revêtements de sol et de murs, ainsi que la rénovation globale. 
+                Grâce à notre savoir-faire acquis sur de nombreux chantiers en Normandie, nous maîtrisons toutes les techniques de peinture, de pose de revêtements de sol et de murs, ainsi que la rénovation globale.
                 Notre engagement ? Des finitions impeccables et un chantier propre.
               </p>
               <button className="btn btn-primary" style={{ backgroundColor: 'var(--primary)', color: 'white', border: 'none', boxShadow: 'none' }} onClick={() => scrollTo('contact')}>
                 Contactez-nous
               </button>
             </div>
-            
+
             <div className="about-stats">
               <div className="stat-item">
                 <h4>15+</h4>
@@ -158,7 +214,7 @@ function App() {
       </section>
 
       {/* Services Portfolio (Bento Grid) */}
-      <section id="services" className="section services">
+      <section id="services" className="section services reveal">
         <div className="container">
           <h2 className="section-title">Nos Services & Réalisations</h2>
           <p className="section-subtitle">
@@ -195,7 +251,7 @@ function App() {
                 <p>Pose de parquet, moquette, sol PVC, lino et carrelage.</p>
               </div>
             </div>
-            
+
             {/* Additional Text Blocks that look clean */}
             <div className="bento-item" style={{ backgroundColor: 'var(--primary)' }}>
               <div className="bento-content" style={{ transform: 'none' }}>
@@ -209,10 +265,12 @@ function App() {
       </section>
 
       {/* Process Timeline Section */}
-      <ProcessTimeline />
+      <section id="method" className="reveal">
+        <ProcessTimeline />
+      </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="section testimonials">
+      <section id="testimonials" className="section testimonials reveal">
         <div className="container">
           <div className="section-header text-center" style={{ marginBottom: '4rem' }}>
             <h2 className="section-title">Confiance & Satisfaction</h2>
@@ -286,12 +344,32 @@ function App() {
         </div>
       </section>
 
+      {/* Service Area Map Component */}
+      <section className="section map-section reveal">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Zone d'Intervention</h2>
+            <p className="section-subtitle">Nous servons Saint-Aubin-lès-Elbeuf, Rouen, Louviers et toute la Normandie.</p>
+          </div>
+          <div className="branded-map">
+            <div className="map-placeholder">
+              <div className="map-pin"></div>
+              <span>76410 Saint-Aubin-lès-Elbeuf</span>
+            </div>
+            <div className="map-overlay">
+              <div className="area-pill">Seine-Maritime (76)</div>
+              <div className="area-pill">Eure (27)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact & Footer Section */}
-      <footer id="contact" className="footer">
+      <footer id="contact" className="footer reveal">
         <div className="container">
           <div className="footer-grid">
             <div className="contact-info">
-              <h2>Prêt à sublimer<br/>votre intérieur ?</h2>
+              <h2>Prêt à sublimer<br />votre intérieur ?</h2>
               <p>Contactez-nous aujourd'hui pour une estimation gratuite et détaillée de votre projet de rénovation.</p>
 
               <div className="info-wrap" style={{ marginTop: '3rem' }}>
@@ -327,12 +405,12 @@ function App() {
                   <label htmlFor="name">Nom / Entreprise</label>
                   <input type="text" id="name" className="form-input" placeholder="Votre nom" />
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
                   <input type="email" id="email" className="form-input" placeholder="votre@email.com" />
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="message">Parlez-nous de votre projet</label>
                   <textarea id="message" className="form-input" placeholder="Je souhaite rénover..."></textarea>
@@ -347,17 +425,17 @@ function App() {
 
           <div className="footer-bottom">
             <div className="footer-logo-wrap">
-              <img src="/logo.png" alt="INEX SPR Logo" className="footer-logo-img" />
+              <img src="/logo_transparent.png" alt="INEX SPR Logo" className="footer-logo-img" />
             </div>
             <p>© {new Date().getFullYear()} INEX SPR Services Peinture Revêtement. Tous droits réservés. | Designed with creativity.</p>
           </div>
         </div>
       </footer>
       {/* UI Modals */}
-      <ServiceModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        service={activeModal} 
+      <ServiceModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        service={activeModal}
       />
     </div>
   );
