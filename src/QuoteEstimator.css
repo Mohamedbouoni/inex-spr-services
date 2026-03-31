@@ -1,0 +1,249 @@
+.estimator-section {
+  background-color: var(--white);
+  padding: 6rem 0;
+}
+
+.estimator-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.estimator-header {
+  background: var(--primary);
+  color: var(--white);
+  padding: 3rem;
+  text-align: center;
+}
+
+.estimator-header .icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--accent);
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.estimator-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.estimator-header p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+.estimator-body {
+  padding: 3rem;
+  position: relative;
+}
+
+.progress-bar {
+  height: 6px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 3px;
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.5s ease;
+}
+
+.step-content h3 {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.card-select {
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.card-select h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.card-check {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: rgba(0,0,0,0.1);
+  transition: var(--transition-smooth);
+}
+
+.card-select:hover {
+  border-color: var(--accent-light);
+  transform: translateY(-2px);
+}
+
+.card-select.active {
+  border-color: var(--accent);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.card-select.active .card-check {
+  color: var(--accent);
+}
+
+/* Slider */
+.slider-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.surface-value {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 2rem;
+}
+
+.surface-slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.1);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  margin-bottom: 1rem;
+}
+
+.surface-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 4px solid var(--white);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.surface-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Results */
+.result-card {
+  text-align: center;
+  padding: 2rem;
+  background: var(--bg-gray);
+  border-radius: 1rem;
+  border: 1px dashed rgba(0,0,0,0.1);
+}
+
+.price-range {
+  margin: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.separator {
+  color: var(--text-muted);
+  font-size: 1.25rem;
+}
+
+.disclaimer {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.lead-capture {
+  display: flex;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.lead-capture input {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.lead-capture input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.animate-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .estimator-header {
+    padding: 2rem;
+  }
+  .estimator-body {
+    padding: 2rem;
+  }
+  .lead-capture {
+    flex-direction: column;
+  }
+  .price {
+    font-size: 2rem;
+  }
+}
